@@ -12,28 +12,12 @@ package quizzapp;
  * @author edgar
  */
 public class QuizzApp {
-    
-    //int arrayPreguntas[];
-
-    /**
-     * Método que genera valores alearorios limitandolos a un rango especificado por el usuario
-     * @param rango Limite para generar valor aleatorio
-     * @return 
-     */
-    public static int randomize(int rango){
-        int valor = 0;
-        // Genera un valor aletorio entre el rango entre 0.0 y 1.0
-        // Se multiplica por un rango determinado por el usuario 
-
-        double rnd = (Math.random()*rango);
-        valor = (int)rnd;
-        return valor;
-    }
+    public static int[] arrayPreguntas;    
     
     public static int tipoQuizz(){
         int totalPreguntas = 10;       
         // Generar valor aleatorio para saber la cantidad de preguntas a mostrar
-        int tipoQuizz = randomize(3);
+        int tipoQuizz = GenRandom.randomize(3);
         
         // Clasificación del Rango de preguntas segun los requerimientos del proyecto
         // Esta puede realizarse con sentencias IF o con la sentencia Switch
@@ -64,6 +48,19 @@ public class QuizzApp {
         return valorPregunta;
     }
     
+    public static boolean existePregunta(int numPregunta, int limiteArreglo){
+        boolean existePregunta = false;
+        int pregunta;
+        for (int j= 0; j<= limiteArreglo; j++){
+            pregunta = arrayPreguntas[j];
+            if (numPregunta == pregunta){
+               existePregunta = true; 
+               break;
+            }
+        }            
+        return existePregunta;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -71,13 +68,28 @@ public class QuizzApp {
         // TODO code application logic here
         int rangoPreguntas = tipoQuizz();
         double valorPregunta  = valorQuestion(rangoPreguntas);
+        int preguntaGenerada;
+        boolean preguntaExiste = false;
         
-        //arrayPreguntas = new int[10];
+ 
+        arrayPreguntas = new int[rangoPreguntas];
+        
         System.out.println("Total de Preguntas     : "+rangoPreguntas);   
         System.out.println("Valor de cada Pregunta : "+valorPregunta);   
         
         for (int i=1; i <= rangoPreguntas; i++){
-           System.out.println("Pregunta No. : " + randomize(rangoPreguntas));            
+           do {
+              preguntaGenerada =  GenRandom.randomize(rangoPreguntas);
+              preguntaExiste = existePregunta(preguntaGenerada, i-2);
+           }while (preguntaExiste);
+           arrayPreguntas[i-1] = preguntaGenerada;
+             
+           
         }        
+        
+        for (int pregunta:arrayPreguntas){
+            System.out.println("Pregunta en el Arreglo. : " + pregunta); 
+         
+        }
     }  
 }
