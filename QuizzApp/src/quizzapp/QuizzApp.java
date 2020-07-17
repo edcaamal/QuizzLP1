@@ -13,6 +13,9 @@ package quizzapp;
  */
 public class QuizzApp {
     public static int[] arrayPreguntas;    
+    public static String[][] Preguntas;  
+    public static String[][] Incisos;     
+    
     
     /**
      * @param args the command line arguments
@@ -21,6 +24,7 @@ public class QuizzApp {
         // TODO code application logic here
         int rangoPreguntas = GenQuizz.tipoQuizz();
         double valorPregunta  = GenQuizz.valorQuestion(rangoPreguntas);
+        GenQuizz.llenarPreguntas();
         int preguntaGenerada;
         boolean preguntaExiste = false;
         
@@ -39,7 +43,11 @@ public class QuizzApp {
         }        
         
         for (int pregunta:arrayPreguntas){
-            System.out.println("Pregunta en el Arreglo. : " + pregunta);        
+            System.out.print("Pregunta No. : " + pregunta+ " ");  
+            System.out.println(Preguntas[pregunta][0]);
+            System.out.println("   a) "+Incisos[pregunta][0]);
+            System.out.println("   b) "+Incisos[pregunta][1]);
+            System.out.println("   c) "+Incisos[pregunta][2]);
         }
     }  
 }
