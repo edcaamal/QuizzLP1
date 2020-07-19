@@ -15,10 +15,44 @@ import static quizzapp.QuizzApp.Incisos;
  */
 public class GenQuizz {
 
-    
+    /**
+     * Generador principal del arreglo de preguntas a realizar
+     * Manda a llamar a los métodos
+     */
+    public static void GenerarPreguntas(){
+        // Variables 
+        int preguntaGenerada;
+        boolean preguntaExiste = false;
+        // Llena el arreglo general del banco de preguntas
+        GenQuizz.llenarPreguntas();
+
+        // Obtiene el tipo de cuestionario, con el rango total de preguntas a realiza
+        int rangoPreguntas = GenQuizz.tipoQuizz();
+        // Obtiene el valor que tendrá cada pregunta, para su evaluación esta en escala de 0-10
+        double valorPregunta  = GenQuizz.valorQuestion(rangoPreguntas);
+        // Inicializa arreglo con el tamaño del rango de preguntas 
+        arrayPreguntas = new int[rangoPreguntas];
+        
+        System.out.println("Total de Preguntas     : "+rangoPreguntas);   
+        System.out.println("Valor de cada Pregunta : "+valorPregunta); 
+        
+        // Ciclos anidados donde se valida que las preguntas no se repitan
+        for (int i=1; i <= rangoPreguntas; i++){
+           do {
+              preguntaGenerada =  GenRandom.randomize(rangoPreguntas);
+              preguntaExiste = GenQuizz.existePregunta(preguntaGenerada, i-2);
+           }while (preguntaExiste);
+           arrayPreguntas[i-1] = preguntaGenerada;         
+        } 
+    }
+    /**
+     * Batería de preguntas general, de este banco se tomaran preguntas aleatorias, cada pregunta tiene 
+     * la respuesta correcta por cada pregunta
+     * 
+     */
     public static void llenarPreguntas(){
         Preguntas  = new String[13][2];
-        Incisos = new String[13][3];
+        Incisos    = new String[13][3];
         
         Preguntas[0][0]  = "¿Cuál es la sintaxis correcta para generar Hello World en Java?";
         Preguntas[0][1]  = "0";
@@ -91,7 +125,10 @@ public class GenQuizz {
         Incisos[12][2] = "*/ This is a comment";           
     }
 
-    
+    /**
+     * Genera el tipo de cuestionario a aplicar, con la definición del rango de preguntas 
+     * @return  Total de preguntas que se aplicarán al usuario
+     */
     public static int tipoQuizz(){
         int totalPreguntas = 10;       
         // Generar valor aleatorio para saber la cantidad de preguntas a mostrar
@@ -125,7 +162,13 @@ public class GenQuizz {
         double valorPregunta =  10/ (double)tipoQuizz ;
         return valorPregunta;
     }
-
+    
+    /**
+     * Valida que la pregunta no se duplique 
+     * @param numPregunta Numero de la pregunta que corresponde a la bateria de preguntas general
+     * @param limiteArreglo Limite del arreglo que al momento se han registrado preguntas
+     * @return 
+     */
     public static boolean existePregunta(int numPregunta, int limiteArreglo){
         boolean existePregunta = false;
         int pregunta;
